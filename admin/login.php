@@ -7,13 +7,16 @@ global $conn;
 //php环境是8.0或8.1会报错Warning: Undefined array key "sub" in E:\PhpstormProjects\phpStudyPage\admin\login.php on line 8
 //因为8版本后有了更严格的语法要求
 if(isset($_POST['sub'])){
-    $username = $_POST['username'];
-    $password = md5($_POST['password']);
+    $username = addslashes($_POST['username']); // 防注入攻击
+    $password = addslashes(md5($_POST['password']));
     $result = $conn->query("select * from user where username='$username'and password='$password'");
     if($result->num_rows>0){
         $row=$result->fetch_assoc();
         if($row['password']==$password){
-            echo "登陆成功";
+            echo "登陆成功 ";
+            $_SESSION['username'] = $row['username'];
+            echo "欢迎 ";
+            echo $_SESSION['username'];
         }else{
             echo "账号和密码错误";
         }
