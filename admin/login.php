@@ -9,7 +9,7 @@ global $conn;
 if(isset($_POST['sub'])){
     $username = addslashes($_POST['username']); // 防注入攻击
     $password = addslashes(md5($_POST['password']));
-    $result = $conn->query("select * from user where username='$username'and password='$password'");
+    $result = $conn->query("select `username`,`password` from user where username='$username'and password='$password'");
     if($result->num_rows>0){
         $row=$result->fetch_assoc();
         if($row['password']==$password){
